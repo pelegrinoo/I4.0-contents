@@ -1,0 +1,1261 @@
+[
+    {
+        "id": "8a18e988a1e6f6ff",
+        "type": "tab",
+        "label": "MQTT com Colaboratory",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "9416f7befac662cc",
+        "type": "mqtt in",
+        "z": "8a18e988a1e6f6ff",
+        "name": "Data via MQTT 2",
+        "topic": "Data",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "0dbd08f2cb215d5e",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 100,
+        "y": 100,
+        "wires": [
+            [
+                "181a598cc67806f2",
+                "1843cfe0e37019bb"
+            ]
+        ]
+    },
+    {
+        "id": "1843cfe0e37019bb",
+        "type": "debug",
+        "z": "8a18e988a1e6f6ff",
+        "name": "Dado vindo do MQTT 2",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 275,
+        "y": 100,
+        "wires": [],
+        "l": false
+    },
+    {
+        "id": "f7d81d33a35017b9",
+        "type": "function",
+        "z": "8a18e988a1e6f6ff",
+        "name": "function 1",
+        "func": "var valores\n\nvalores = msg.payload\nmsg.payload = valores[0]\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 875,
+        "y": 260,
+        "wires": [
+            [
+                "a1ef11a260f4d92f"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "8e459d5005382bec",
+        "type": "sort",
+        "z": "8a18e988a1e6f6ff",
+        "name": "Decrescente",
+        "order": "descending",
+        "as_num": true,
+        "target": "payload",
+        "targetType": "msg",
+        "msgKey": "payload",
+        "msgKeyType": "elem",
+        "seqKey": "payload",
+        "seqKeyType": "msg",
+        "x": 750,
+        "y": 300,
+        "wires": [
+            [
+                "fcfeb44775520465"
+            ]
+        ]
+    },
+    {
+        "id": "268915ea8eeaa95d",
+        "type": "sort",
+        "z": "8a18e988a1e6f6ff",
+        "name": "Crescente",
+        "order": "ascending",
+        "as_num": true,
+        "target": "payload",
+        "targetType": "msg",
+        "msgKey": "payload",
+        "msgKeyType": "elem",
+        "seqKey": "payload",
+        "seqKeyType": "msg",
+        "x": 750,
+        "y": 260,
+        "wires": [
+            [
+                "f7d81d33a35017b9"
+            ]
+        ]
+    },
+    {
+        "id": "181a598cc67806f2",
+        "type": "link out",
+        "z": "8a18e988a1e6f6ff",
+        "name": "link out 25",
+        "mode": "link",
+        "links": [
+            "cf82e9b9c5de5738",
+            "4066e6e0f06fd1ca",
+            "4c5ee80c25190985",
+            "256eeed2caf00387",
+            "2fc18fb47c3ed40e"
+        ],
+        "x": 225,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "fcfeb44775520465",
+        "type": "function",
+        "z": "8a18e988a1e6f6ff",
+        "name": "function 2",
+        "func": "var valores\n\nvalores = msg.payload\nmsg.payload = valores[0]\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 875,
+        "y": 300,
+        "wires": [
+            [
+                "a1ef11a260f4d92f"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "4c5ee80c25190985",
+        "type": "link in",
+        "z": "8a18e988a1e6f6ff",
+        "name": "link in 36",
+        "links": [
+            "a97c42d26f03f26e",
+            "181a598cc67806f2"
+        ],
+        "x": 605,
+        "y": 140,
+        "wires": [
+            [
+                "f10a886dd9950c19",
+                "c3bf919e317c42d2"
+            ]
+        ]
+    },
+    {
+        "id": "f10a886dd9950c19",
+        "type": "function",
+        "z": "8a18e988a1e6f6ff",
+        "name": "Histograma 2",
+        "func": "var num_val = []\nvar tamanho\n\ntamanho = msg.payload\n\nfor(i=0;i<tamanho.length;i++)\n{\n    num_val.push(tamanho[i].length)    \n}\n\nmsg.payload =\n[\n    {\n    \"series\": [\"Lote 1\", \"Lote 2\", \"Lote 3\",\n               \"Lote 4\", \"Lote 5\", \"Lote 6\",\n               \"Lote 7\", \"Lote 8\", \"Lote 9\"],\n    \"data\": [[num_val[0]], [num_val[1]], [num_val[2]],\n             [num_val[3]], [num_val[4]], [num_val[5]],\n             [num_val[6]], [num_val[7]], [num_val[8]]\n            ],\n    \"labels\": [\"Lotes\"]\n    }\n];\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 750,
+        "y": 160,
+        "wires": [
+            [
+                "ba501c53e41446a7"
+            ]
+        ]
+    },
+    {
+        "id": "ba501c53e41446a7",
+        "type": "ui_chart",
+        "z": "8a18e988a1e6f6ff",
+        "name": "",
+        "group": "72fc436c1a0fa956",
+        "order": 2,
+        "width": 8,
+        "height": 9,
+        "label": "Número de peças por lote Depois",
+        "chartType": "bar",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "25",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#000032",
+            "#001c4d",
+            "#00384d",
+            "#00544d",
+            "#00704d",
+            "#008c4d",
+            "#00a84d",
+            "#00c44d",
+            "#00ff4d"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 945,
+        "y": 160,
+        "wires": [
+            []
+        ],
+        "l": false
+    },
+    {
+        "id": "7ea30c0a32fd2f11",
+        "type": "mqtt in",
+        "z": "8a18e988a1e6f6ff",
+        "name": "Data via MQTT 1",
+        "topic": "Data_2",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "0dbd08f2cb215d5e",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 100,
+        "y": 40,
+        "wires": [
+            [
+                "c52b446076debea3",
+                "92c9f80bff530247"
+            ]
+        ]
+    },
+    {
+        "id": "ebdfa4249c45a223",
+        "type": "link in",
+        "z": "8a18e988a1e6f6ff",
+        "name": "link in 37",
+        "links": [
+            "a97c42d26f03f26e",
+            "c52b446076debea3"
+        ],
+        "x": 605,
+        "y": 60,
+        "wires": [
+            [
+                "62bdf5c1790a553b",
+                "0ade23beb1d0601b"
+            ]
+        ]
+    },
+    {
+        "id": "62bdf5c1790a553b",
+        "type": "function",
+        "z": "8a18e988a1e6f6ff",
+        "name": "Histograma 1",
+        "func": "var num_val = []\nvar tamanho\n\ntamanho = msg.payload\n\nfor(i=0;i<tamanho.length;i++)\n{\n    num_val.push(tamanho[i].length)    \n}\n\nmsg.payload =\n[\n    {\n    \"series\": [\"Lote 1\", \"Lote 2\", \"Lote 3\",\n               \"Lote 4\", \"Lote 5\", \"Lote 6\",\n               \"Lote 7\", \"Lote 8\", \"Lote 9\"],\n    \"data\": [[num_val[0]], [num_val[1]], [num_val[2]],\n             [num_val[3]], [num_val[4]], [num_val[5]],\n             [num_val[6]], [num_val[7]], [num_val[8]]\n            ],\n    \"labels\": [\"Lotes\"]\n    }\n];\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 750,
+        "y": 80,
+        "wires": [
+            [
+                "df02ee2353ff9627"
+            ]
+        ]
+    },
+    {
+        "id": "df02ee2353ff9627",
+        "type": "ui_chart",
+        "z": "8a18e988a1e6f6ff",
+        "name": "",
+        "group": "72fc436c1a0fa956",
+        "order": 1,
+        "width": 8,
+        "height": 9,
+        "label": "Número de peças por lote Antes",
+        "chartType": "bar",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "25",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#000032",
+            "#001c4d",
+            "#00384d",
+            "#00544d",
+            "#00704d",
+            "#008c4d",
+            "#00a84d",
+            "#00c44d",
+            "#00ff4d"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 945,
+        "y": 80,
+        "wires": [
+            []
+        ],
+        "l": false
+    },
+    {
+        "id": "c52b446076debea3",
+        "type": "link out",
+        "z": "8a18e988a1e6f6ff",
+        "name": "link out 26",
+        "mode": "link",
+        "links": [
+            "cf82e9b9c5de5738",
+            "4066e6e0f06fd1ca",
+            "ebdfa4249c45a223",
+            "2fc18fb47c3ed40e"
+        ],
+        "x": 225,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "92c9f80bff530247",
+        "type": "debug",
+        "z": "8a18e988a1e6f6ff",
+        "name": "Dado vindo do MQTT 1",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 275,
+        "y": 40,
+        "wires": [],
+        "l": false
+    },
+    {
+        "id": "0ade23beb1d0601b",
+        "type": "function",
+        "z": "8a18e988a1e6f6ff",
+        "name": "Valor Total 1",
+        "func": "var num_val = []\nvar tamanho\n\ntamanho = msg.payload\n\nfor(i=0;i<tamanho.length;i++)\n{\n    num_val.push(tamanho[i].length)   \n}\n\nconst sum = num_val.reduce((partialSum, a) => partialSum + a, 0);\nconsole.log(sum);\n\nmsg.payload = sum + ' peças'\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 750,
+        "y": 40,
+        "wires": [
+            [
+                "189b7af4363609e1"
+            ]
+        ]
+    },
+    {
+        "id": "c3bf919e317c42d2",
+        "type": "function",
+        "z": "8a18e988a1e6f6ff",
+        "name": "Valor Total 2",
+        "func": "var num_val = []\nvar tamanho\n\ntamanho = msg.payload\n\nfor(i=0;i<tamanho.length;i++)\n{\n    num_val.push(tamanho[i].length)   \n}\n\nconst sum = num_val.reduce((partialSum, a) => partialSum + a, 0);\nconsole.log(sum);\n\nmsg.payload = sum + ' peças'\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 750,
+        "y": 120,
+        "wires": [
+            [
+                "ed7c566c980ae285"
+            ]
+        ]
+    },
+    {
+        "id": "57835a7638286a24",
+        "type": "ui_text",
+        "z": "8a18e988a1e6f6ff",
+        "group": "72fc436c1a0fa956",
+        "order": 6,
+        "width": 9,
+        "height": 1,
+        "name": "",
+        "label": "Valores do Lote: ",
+        "format": "{{msg.payload}}",
+        "layout": "row-center",
+        "className": "",
+        "x": 945,
+        "y": 220,
+        "wires": [],
+        "l": false
+    },
+    {
+        "id": "32cf1165697a43bb",
+        "type": "function",
+        "z": "8a18e988a1e6f6ff",
+        "name": "Valor Massa",
+        "func": "var texto\n\ntexto = msg.payload\n\nmsg.payload = 'Massas entre ' + texto[0] + 'g e ' + texto[1] + 'g'\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 750,
+        "y": 220,
+        "wires": [
+            [
+                "57835a7638286a24"
+            ]
+        ]
+    },
+    {
+        "id": "3584ca73009b2ce9",
+        "type": "join",
+        "z": "8a18e988a1e6f6ff",
+        "name": "",
+        "mode": "custom",
+        "build": "array",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": false,
+        "timeout": "",
+        "count": "2",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 605,
+        "y": 220,
+        "wires": [
+            [
+                "32cf1165697a43bb"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "325da5e03e5af8d4",
+        "type": "link in",
+        "z": "8a18e988a1e6f6ff",
+        "name": "link in 40",
+        "links": [
+            "826603d73928137c"
+        ],
+        "x": 535,
+        "y": 340,
+        "wires": [
+            [
+                "831d5434fb3f6a50",
+                "0915330a6b3a5160"
+            ]
+        ]
+    },
+    {
+        "id": "ed7c566c980ae285",
+        "type": "ui_text",
+        "z": "8a18e988a1e6f6ff",
+        "group": "72fc436c1a0fa956",
+        "order": 9,
+        "width": 8,
+        "height": 1,
+        "name": "",
+        "label": "Total Depois: ",
+        "format": "{{msg.payload}}",
+        "layout": "row-center",
+        "className": "",
+        "x": 945,
+        "y": 120,
+        "wires": [],
+        "l": false
+    },
+    {
+        "id": "189b7af4363609e1",
+        "type": "ui_text",
+        "z": "8a18e988a1e6f6ff",
+        "group": "72fc436c1a0fa956",
+        "order": 8,
+        "width": 8,
+        "height": 1,
+        "name": "",
+        "label": "Total Antes: ",
+        "format": "{{msg.payload}}",
+        "layout": "row-center",
+        "className": "",
+        "x": 945,
+        "y": 40,
+        "wires": [],
+        "l": false
+    },
+    {
+        "id": "314e20e1ab4c3e89",
+        "type": "ui_numeric",
+        "z": "8a18e988a1e6f6ff",
+        "name": "",
+        "label": "Lote:",
+        "tooltip": "",
+        "group": "72fc436c1a0fa956",
+        "order": 10,
+        "width": 3,
+        "height": 1,
+        "wrap": false,
+        "passthru": true,
+        "topic": "topic",
+        "topicType": "msg",
+        "format": "{{value}}",
+        "min": "0",
+        "max": "9",
+        "step": 1,
+        "className": "",
+        "x": 45,
+        "y": 240,
+        "wires": [
+            [
+                "596a30b1af91cc2e"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "596a30b1af91cc2e",
+        "type": "rbe",
+        "z": "8a18e988a1e6f6ff",
+        "name": "",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "septopics": true,
+        "property": "payload",
+        "topi": "topic",
+        "x": 125,
+        "y": 240,
+        "wires": [
+            [
+                "60006623679a633a"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "94460736d85d1340",
+        "type": "ui_chart",
+        "z": "8a18e988a1e6f6ff",
+        "name": "Lote n Antess",
+        "group": "72fc436c1a0fa956",
+        "order": 3,
+        "width": 6,
+        "height": 4,
+        "label": "Lote Antes",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": true,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "60",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 880,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "303d4441d941c6cb",
+        "type": "ui_chart",
+        "z": "8a18e988a1e6f6ff",
+        "name": "Lote n Depois",
+        "group": "72fc436c1a0fa956",
+        "order": 4,
+        "width": 6,
+        "height": 4,
+        "label": "Lote Depois",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": true,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "60",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 880,
+        "y": 440,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "60006623679a633a",
+        "type": "join",
+        "z": "8a18e988a1e6f6ff",
+        "name": "",
+        "mode": "custom",
+        "build": "array",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": false,
+        "timeout": "",
+        "count": "2",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 125,
+        "y": 300,
+        "wires": [
+            [
+                "0a4d7c3f347b0bd9",
+                "826603d73928137c"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "0a4d7c3f347b0bd9",
+        "type": "function",
+        "z": "8a18e988a1e6f6ff",
+        "name": "function 15",
+        "func": "msg.payload = msg.payload[0]\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 225,
+        "y": 300,
+        "wires": [
+            [
+                "60006623679a633a"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "256eeed2caf00387",
+        "type": "link in",
+        "z": "8a18e988a1e6f6ff",
+        "name": "link in 49",
+        "links": [
+            "181a598cc67806f2"
+        ],
+        "x": 45,
+        "y": 300,
+        "wires": [
+            [
+                "60006623679a633a"
+            ]
+        ]
+    },
+    {
+        "id": "3b93bd4f361f3b83",
+        "type": "function",
+        "z": "8a18e988a1e6f6ff",
+        "name": "function 16",
+        "func": "var delimitador = msg.payload[1]\n\nif(delimitador > 0)\n{\n    msg.payload = msg.payload[0][delimitador-1]\n    return msg;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 595,
+        "y": 540,
+        "wires": [
+            [
+                "f8540a640e035f8f"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "f8540a640e035f8f",
+        "type": "function",
+        "z": "8a18e988a1e6f6ff",
+        "name": "Gráfico n",
+        "func": "var valores\nvar eixos   = []\nvar tamanho = []\n\nvalores = msg.payload\n\nfor(i=0;i<valores.length;i++)\n{\n    tamanho.push(i)\n}\n\nfor(i=0;i<valores.length;i++)\n{\n    var xy={\"x\":tamanho[i],\"y\":valores[i]};\n    eixos.push(xy)\n}\n\nmsg.payload =\n[\n    {\n    \"series\": [\"Lote 1\"],\n    \"data\"  : [eixos],\n    \"labels\": [\"Valores\"]\n    }\n];\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 540,
+        "wires": [
+            [
+                "39316a7917234073"
+            ]
+        ]
+    },
+    {
+        "id": "39316a7917234073",
+        "type": "ui_chart",
+        "z": "8a18e988a1e6f6ff",
+        "name": "Todos os Lotes",
+        "group": "72fc436c1a0fa956",
+        "order": 7,
+        "width": 12,
+        "height": 4,
+        "label": "",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": true,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "60",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#000032",
+            "#001c4d",
+            "#00384d",
+            "#00544d",
+            "#00704d",
+            "#008c4d",
+            "#00a84d",
+            "#00c44d",
+            "#00ff4d"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 880,
+        "y": 540,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "dd26736d63cd7958",
+        "type": "function",
+        "z": "8a18e988a1e6f6ff",
+        "name": "Gráficos",
+        "func": "var valores\nvar eixos   = [[],[],[],[],[],[],[],[],[]]\nvar tamanho = []\n\nvalores = msg.payload\n\nfor(i=0;i<30;i++)\n{\n    tamanho.push(i)\n}\n\nfor(i=0;i<valores.length;i++)\n{\n    for(j=0;j<valores[i].length;j++)\n    {\n        var xy={\"x\":tamanho[j],\"y\":valores[i][j]};\n        eixos[i].push(xy)\n    }\n}\n\nmsg.payload =\n[\n    {\n    \"series\": [\"Lote 1\",\"Lote 2\",\"Lote 3\",\n               \"Lote 4\",\"Lote 5\",\"Lote 6\",\n               \"Lote 7\",\"Lote 8\",\"Lote 9\"],\n    \"data\"  : [eixos[0],eixos[1],eixos[2],\n               eixos[3],eixos[4],eixos[5],\n               eixos[6],eixos[7],eixos[8]],\n    \"labels\": [\"Vals_1\",\"Vals_2\",\"Vals_3\",\n               \"Vals_4\",\"Vals_5\",\"Vals_6\",\n               \"Vals_7\",\"Vals_8\",\"Vals_9\"]\n    }\n];\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 500,
+        "wires": [
+            [
+                "39316a7917234073"
+            ]
+        ]
+    },
+    {
+        "id": "91c0731047be57ae",
+        "type": "function",
+        "z": "8a18e988a1e6f6ff",
+        "name": "function 18",
+        "func": "if(msg.payload[1] == 0)\n{\n    msg.payload = msg.payload[0]\n    return msg;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 595,
+        "y": 500,
+        "wires": [
+            [
+                "dd26736d63cd7958"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "4abf089a22786e79",
+        "type": "ui_numeric",
+        "z": "8a18e988a1e6f6ff",
+        "name": "",
+        "label": "Lote:",
+        "tooltip": "",
+        "group": "72fc436c1a0fa956",
+        "order": 5,
+        "width": 3,
+        "height": 1,
+        "wrap": false,
+        "passthru": true,
+        "topic": "topic",
+        "topicType": "msg",
+        "format": "{{value}}",
+        "min": "1",
+        "max": "9",
+        "step": 1,
+        "className": "",
+        "x": 45,
+        "y": 420,
+        "wires": [
+            [
+                "311a0c45c0c223f5"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "311a0c45c0c223f5",
+        "type": "rbe",
+        "z": "8a18e988a1e6f6ff",
+        "name": "",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "septopics": true,
+        "property": "payload",
+        "topi": "topic",
+        "x": 125,
+        "y": 420,
+        "wires": [
+            [
+                "2a6ed9b5606a5bdb"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "2a6ed9b5606a5bdb",
+        "type": "join",
+        "z": "8a18e988a1e6f6ff",
+        "name": "",
+        "mode": "custom",
+        "build": "array",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": false,
+        "timeout": "",
+        "count": "3",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 125,
+        "y": 480,
+        "wires": [
+            [
+                "41518c00614e4616",
+                "6e04b2a7e625e359"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "41518c00614e4616",
+        "type": "function",
+        "z": "8a18e988a1e6f6ff",
+        "name": "function 19",
+        "func": "var arrays = []\nvar array_1 = msg.payload[0]\nvar array_2 = msg.payload[1]\n\narrays = [array_1,array_2]\n\nmsg.payload = arrays\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 225,
+        "y": 480,
+        "wires": [
+            [
+                "720501a4ca22b79b"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "2fc18fb47c3ed40e",
+        "type": "link in",
+        "z": "8a18e988a1e6f6ff",
+        "name": "link in 50",
+        "links": [
+            "181a598cc67806f2",
+            "c52b446076debea3"
+        ],
+        "x": 45,
+        "y": 480,
+        "wires": [
+            [
+                "2a6ed9b5606a5bdb"
+            ]
+        ]
+    },
+    {
+        "id": "232287e3730636a6",
+        "type": "function",
+        "z": "8a18e988a1e6f6ff",
+        "name": "function 20",
+        "func": "var delimitador = msg.payload[2]\n\nif(delimitador > 0)\n{\n    msg.payload = msg.payload[1][delimitador-1]\n    return msg;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 595,
+        "y": 440,
+        "wires": [
+            [
+                "73ca75535e5d2d7f"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "73ca75535e5d2d7f",
+        "type": "function",
+        "z": "8a18e988a1e6f6ff",
+        "name": "Gráfico n",
+        "func": "var valores\nvar eixos   = []\nvar tamanho = []\n\nvalores = msg.payload\n\nfor(i=0;i<valores.length;i++)\n{\n    tamanho.push(i)\n}\n\nfor(i=0;i<valores.length;i++)\n{\n    var xy={\"x\":tamanho[i],\"y\":valores[i]};\n    eixos.push(xy)\n}\n\nmsg.payload =\n[\n    {\n    \"series\": [\"Lote 1\"],\n    \"data\"  : [eixos],\n    \"labels\": [\"Valores\"]\n    }\n];\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 440,
+        "wires": [
+            [
+                "303d4441d941c6cb"
+            ]
+        ]
+    },
+    {
+        "id": "83049f9008a3d202",
+        "type": "function",
+        "z": "8a18e988a1e6f6ff",
+        "name": "function 21",
+        "func": "var delimitador = msg.payload[2]\n\nif(delimitador > 0)\n{\n    msg.payload = msg.payload[0][delimitador-1]\n    return msg;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 595,
+        "y": 400,
+        "wires": [
+            [
+                "ca4c6ed1ec6bbe29"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "ca4c6ed1ec6bbe29",
+        "type": "function",
+        "z": "8a18e988a1e6f6ff",
+        "name": "Gráfico n",
+        "func": "var valores\nvar eixos   = []\nvar tamanho = []\n\nvalores = msg.payload\n\nfor(i=0;i<valores.length;i++)\n{\n    tamanho.push(i)\n}\n\nfor(i=0;i<valores.length;i++)\n{\n    var xy={\"x\":tamanho[i],\"y\":valores[i]};\n    eixos.push(xy)\n}\n\nmsg.payload =\n[\n    {\n    \"series\": [\"Lote 1\"],\n    \"data\"  : [eixos],\n    \"labels\": [\"Valores\"]\n    }\n];\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 400,
+        "wires": [
+            [
+                "94460736d85d1340"
+            ]
+        ]
+    },
+    {
+        "id": "720501a4ca22b79b",
+        "type": "split",
+        "z": "8a18e988a1e6f6ff",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": "1",
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "x": 295,
+        "y": 480,
+        "wires": [
+            [
+                "2a6ed9b5606a5bdb"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "019371323c9bfe3c",
+        "type": "link in",
+        "z": "8a18e988a1e6f6ff",
+        "name": "link in 51",
+        "links": [
+            "6e04b2a7e625e359"
+        ],
+        "x": 525,
+        "y": 400,
+        "wires": [
+            [
+                "83049f9008a3d202",
+                "232287e3730636a6"
+            ]
+        ]
+    },
+    {
+        "id": "6e04b2a7e625e359",
+        "type": "link out",
+        "z": "8a18e988a1e6f6ff",
+        "name": "link out 40",
+        "mode": "link",
+        "links": [
+            "019371323c9bfe3c"
+        ],
+        "x": 225,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "6501ac363adab0fa",
+        "type": "link in",
+        "z": "8a18e988a1e6f6ff",
+        "name": "link in 52",
+        "links": [
+            "826603d73928137c"
+        ],
+        "x": 525,
+        "y": 540,
+        "wires": [
+            [
+                "91c0731047be57ae",
+                "3b93bd4f361f3b83"
+            ]
+        ]
+    },
+    {
+        "id": "826603d73928137c",
+        "type": "link out",
+        "z": "8a18e988a1e6f6ff",
+        "name": "link out 41",
+        "mode": "link",
+        "links": [
+            "325da5e03e5af8d4",
+            "6501ac363adab0fa"
+        ],
+        "x": 225,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "831d5434fb3f6a50",
+        "type": "function",
+        "z": "8a18e988a1e6f6ff",
+        "name": "function 22",
+        "func": "var delimitador = msg.payload[1]\n\nif(delimitador > 0)\n{\n    msg.payload = msg.payload[0][delimitador-1]\n    return msg;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 605,
+        "y": 280,
+        "wires": [
+            [
+                "268915ea8eeaa95d",
+                "8e459d5005382bec"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "333c24ce5e9ca798",
+        "type": "link in",
+        "z": "8a18e988a1e6f6ff",
+        "name": "link in 53",
+        "links": [
+            "a1ef11a260f4d92f"
+        ],
+        "x": 535,
+        "y": 220,
+        "wires": [
+            [
+                "3584ca73009b2ce9"
+            ]
+        ]
+    },
+    {
+        "id": "a1ef11a260f4d92f",
+        "type": "link out",
+        "z": "8a18e988a1e6f6ff",
+        "name": "link out 42",
+        "mode": "link",
+        "links": [
+            "333c24ce5e9ca798"
+        ],
+        "x": 945,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "0915330a6b3a5160",
+        "type": "function",
+        "z": "8a18e988a1e6f6ff",
+        "name": "Valor Desvio",
+        "func": "var media_1 = 0\nvar media_2 = 0\nvar desvpad = 0\nvar Soma = []\nvar delimitador = msg.payload[1]\n\nif(delimitador > 0)\n{\n    var dados   = msg.payload[0][delimitador-1]\n    var tamanho = dados.length\n    \n    const sum_1 = dados.reduce((partialSum, a) => partialSum + a, 0);\n    console.log(sum_1);\n    media_1 = sum_1/tamanho\n    \n    for(i=0;i<tamanho;i++)\n    {\n        DP = Math.pow((dados[i]-media_1),2)\n        Soma.push(DP)\n    }\n    const sum_2 = Soma.reduce((partialSum, a) => partialSum + a, 0);\n    console.log(sum_2);\n    \n    media_2 = sum_2/tamanho\n    desvpad = Math.sqrt(media_2)\n    \n    msg.payload = desvpad.toFixed(2)\n\n    return msg;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 750,
+        "y": 340,
+        "wires": [
+            [
+                "b6561f7a35699c4e"
+            ]
+        ]
+    },
+    {
+        "id": "b6561f7a35699c4e",
+        "type": "ui_text",
+        "z": "8a18e988a1e6f6ff",
+        "group": "72fc436c1a0fa956",
+        "order": 11,
+        "width": 9,
+        "height": 1,
+        "name": "",
+        "label": "Desvio Padrão:",
+        "format": "{{msg.payload}}",
+        "layout": "row-center",
+        "className": "",
+        "x": 945,
+        "y": 340,
+        "wires": [],
+        "l": false
+    },
+    {
+        "id": "0dbd08f2cb215d5e",
+        "type": "mqtt-broker",
+        "name": "Broker Python",
+        "broker": "broker.emqx.io",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "72fc436c1a0fa956",
+        "type": "ui_group",
+        "name": "",
+        "tab": "381c09717b357bcb",
+        "order": 3,
+        "disp": false,
+        "width": 28,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "381c09717b357bcb",
+        "type": "ui_tab",
+        "name": "Informações do processo",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]
